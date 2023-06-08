@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.MAIN_OPTIONS;
+package unknown.Sistema_Inventario_Android.OpcionesPrincipales;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,17 +18,17 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_user;
-import unknown.Sistema_Inventario_Android.menu;
-import unknown.Sistema_Inventario_Android.ADD.add_usuarios;
+import unknown.Sistema_Inventario_Android.Tablas.TablaUsuario;
+import unknown.Sistema_Inventario_Android.Menu;
+import unknown.Sistema_Inventario_Android.Agregado.AgregaUsuarios;
 
-public class usuarios extends AppCompatActivity {
+public class Usuarios extends AppCompatActivity {
     ImageView back;
     FloatingActionButton add;
     ListView lista;
-    ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_user.TABLA_USUARIOS,null,1);
+    Conector conn=new Conector(this, TablaUsuario.TABLA_USUARIOS,null,1);
     ArrayAdapter<String> adapter;
     ArrayList<String> ids = new ArrayList<>();
     int grade;
@@ -63,7 +63,7 @@ public class usuarios extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                    Intent intent = new Intent(getApplicationContext(), add_usuarios.class);
+                    Intent intent = new Intent(getApplicationContext(), AgregaUsuarios.class);
                     intent.putExtra("grade", grade);
                     startActivityForResult(intent, 1);
                     finish();
@@ -74,7 +74,7 @@ public class usuarios extends AppCompatActivity {
     }
     private  void fillData() {
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_user.TABLA_USUARIOS+" ORDER BY " + tab_user.ID_USER + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaUsuario.TABLA_USUARIOS+" ORDER BY " + TablaUsuario.ID_USER + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{
@@ -106,7 +106,7 @@ public class usuarios extends AppCompatActivity {
         return rowExists;
     }
     private void backf(){
-        Intent intent = new Intent (getApplicationContext(), menu.class);
+        Intent intent = new Intent (getApplicationContext(), Menu.class);
         intent.putExtra("grade",grade);
         startActivityForResult(intent,0);
         finish();
@@ -121,11 +121,11 @@ public class usuarios extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SQLiteDatabase db2=conn.getReadableDatabase();
-                Cursor c = db2.rawQuery("SELECT * FROM "+ tab_user.TABLA_USUARIOS+" ORDER BY " + tab_user.ID_USER + " asc",null);
+                Cursor c = db2.rawQuery("SELECT * FROM "+ TablaUsuario.TABLA_USUARIOS+" ORDER BY " + TablaUsuario.ID_USER + " asc",null);
                 c.moveToPosition(Integer.parseInt(ids.get(position)));
                 String nombre=c.getString(1);
                 SQLiteDatabase db=conn.getWritableDatabase();
-                db.delete(tab_user.TABLA_USUARIOS, tab_user.ID_USER + "='" + Integer.parseInt(ids.get(position))+"'", null);
+                db.delete(TablaUsuario.TABLA_USUARIOS, TablaUsuario.ID_USER + "='" + Integer.parseInt(ids.get(position))+"'", null);
                 db.close();
                 Toast.makeText(getApplicationContext(),nombre + " fue eliminado de los usuarios",Toast.LENGTH_SHORT).show();
             }

@@ -21,9 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="Menu"
+            android:text="Inicio"
             android:textAllCaps="false"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/colorPrimary"
             android:textSize="50sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-            android:background="@android:color/holo_green_dark"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-            android:background="@android:color/holo_green_light"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -102,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-            android:background="@android:color/holo_orange_dark"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -131,7 +131,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-            android:background="@android:color/holo_orange_light"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -160,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-            android:background="@android:color/holo_red_dark"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal">
 

@@ -1,6 +1,6 @@
-package unknown.Sistema_Inventario_Android.TABLAS;
+package unknown.Sistema_Inventario_Android.Tablas;
 
-public class tab_vent {
+public class TablaVenta {
     //Constantes campos tabla ventas
     public static final String TABLA_VENTA="VENTAS";
     public static final String ID_VENTAS="ID";

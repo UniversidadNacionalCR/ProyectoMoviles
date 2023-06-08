@@ -15,13 +15,13 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_user;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.TablaUsuario;
 
 public class Main extends AppCompatActivity{
     Button continuar;
     EditText u,p;
-    ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_user.TABLA_USUARIOS,null,1);
+    Conector conn=new Conector(this, TablaUsuario.TABLA_USUARIOS,null,1);
     CheckBox cb;
     int band2=0;
 
@@ -34,7 +34,7 @@ public class Main extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_user.TABLA_USUARIOS+" ORDER BY " + tab_user.CAMPO_USER + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaUsuario.TABLA_USUARIOS+" ORDER BY " + TablaUsuario.CAMPO_USER + " asc",null);
         if (!checkdb(c)){
             initdbuser();
         }
@@ -66,14 +66,14 @@ public class Main extends AppCompatActivity{
     }
     private void VerificarUsuarios() {
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_user.TABLA_USUARIOS+" ORDER BY " + tab_user.CAMPO_USER + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaUsuario.TABLA_USUARIOS+" ORDER BY " + TablaUsuario.CAMPO_USER + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{
                 if(c.getString(1).equals(u.getText().toString())){
                     if(c.getString(2).equals(p.getText().toString())){
                         band2=0;
-                        Intent intent = new Intent (getApplicationContext(), menu.class);
+                        Intent intent = new Intent (getApplicationContext(), Menu.class);
                         intent.putExtra("grade",c.getString(3));
                         startActivityForResult(intent,1);
                         finish();
@@ -114,11 +114,11 @@ public class Main extends AppCompatActivity{
         SQLiteDatabase db=conn.getWritableDatabase();
         ContentValues values=new ContentValues();
         //0
-        values.put(tab_user.ID_USER,"0");
-        values.put(tab_user.CAMPO_USER,"admin");
-        values.put(tab_user.CAMPO_PASS,"admin");
-        values.put(tab_user.CAMPO_RANK,"1");
-        db.insert(tab_user.TABLA_USUARIOS, tab_user.ID_USER,values);
+        values.put(TablaUsuario.ID_USER,"0");
+        values.put(TablaUsuario.CAMPO_USER,"admin");
+        values.put(TablaUsuario.CAMPO_PASS,"admin");
+        values.put(TablaUsuario.CAMPO_RANK,"1");
+        db.insert(TablaUsuario.TABLA_USUARIOS, TablaUsuario.ID_USER,values);
         db.close();
     }
 

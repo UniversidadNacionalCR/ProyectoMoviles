@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.EDIT;
+package unknown.Sistema_Inventario_Android.Edicion;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -11,90 +11,111 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.Inventario;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Vendedores;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_inventario;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.TablaVendedor;
 
-public class edit_inventario extends AppCompatActivity {
+public class VendedoresEdicion extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     ImageView back,edit;
-    EditText n,p,d;
-    FloatingActionButton yes;
+    Spinner rifident;
+    EditText n,r,t,em,d;
+    FloatingActionButton y;
     int iterator;
-    String nombre,precio,disponible;
+    String nombre,rif2,rifi,direccion,telefono,correo;
     int band_edit=0;
     int grade;
-    ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_inventario.TABLA_INVENTARIO,null,1);
+    Conector conn=new Conector(this, TablaVendedor.TABLA_VENDEDORES,null,1);
     @Override
     public void onBackPressed(){
         backf();
     }
     private void backf(){
-        Intent intent = new Intent (getApplicationContext(), Inventario.class);
+        Intent intent = new Intent (getApplicationContext(), Vendedores.class);
         intent.putExtra("grade",grade);
-        startActivityForResult(intent,2);
+        startActivityForResult(intent,1);
         finish();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_inventario);
+        setContentView(R.layout.activity_view_vendedores);
         grade = Integer.parseInt(getIntent().getExtras().get("grade").toString());
-        n=(EditText) findViewById(R.id.nombre);
-        p=(EditText) findViewById(R.id.precio);
-        d=(EditText) findViewById(R.id.disponibilidad);
+        iterator = Integer.parseInt(getIntent().getExtras().get("iterator").toString());
+        rifident=(Spinner) findViewById(R.id.spinner_rif);
+        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this,R.array.rif_ident,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        rifident.setAdapter(adapter);
+        rifident.setOnItemSelectedListener(this);
+        n= (EditText) findViewById(R.id.nombre);
+        r= (EditText) findViewById(R.id.rif2);
+        t= (EditText) findViewById(R.id.telefono);
+        em= (EditText) findViewById(R.id.email);
+        d= (EditText) findViewById(R.id.direccion);
+        ReadData();
+        rifident.setEnabled(false);
+        n.setEnabled(false);
+        r.setEnabled(false);
+        t.setEnabled(false);
+        em.setEnabled(false);
+        d.setEnabled(false);
+        n.setText(nombre);
+        r.setText(rif2);
+        t.setText(telefono);
+        em.setText(correo);
+        d.setText(direccion);
+        d.setText(direccion);
+
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                backf();
+                onBackPressed();
             }
         });
-        iterator = Integer.parseInt(getIntent().getExtras().get("iterator").toString());
-        ReadData();
-        n.setText(nombre);
-        n.setEnabled(false);
-        p.setText(precio);
-        p.setEnabled(false);
-        d.setText(disponible);
-        d.setEnabled(false);
+        y = (FloatingActionButton) findViewById(R.id.b_yes);
         edit = (ImageView) findViewById(R.id.edit);
-        yes = (FloatingActionButton) findViewById(R.id.b_yes);
         edit.setOnClickListener(new View.OnClickListener(){
             @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view){
                 if(band_edit==0){
                     band_edit=1;
+                    rifident.setEnabled(true);
                     n.setEnabled(true);
-                    p.setEnabled(true);
+                    r.setEnabled(true);
+                    t.setEnabled(true);
+                    em.setEnabled(true);
                     d.setEnabled(true);
-                    yes.setVisibility(View.VISIBLE);
+                    y.setVisibility(View.VISIBLE);
                     edit.setImageResource(R.mipmap.ic_x);
                 }else{
                     promptDialogedit();
                 }
             }
         });
-        yes.setOnClickListener(new View.OnClickListener(){
+        y.setOnClickListener(new View.OnClickListener(){
             @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view){
+                //editarrrrrrrrrrrrrrrrrrrrrr
                 if (isStr(n.getText().toString().toUpperCase())){
-                    if (isDob(p.getText().toString())){
-                        if (isInt(d.getText().toString())){
+                    if (isInt(r.getText().toString()) && r.getText().toString().length()==9){
+                        if (isStr(d.getText().toString())){
                             promptDialogyes();
                             Toast.makeText(getApplicationContext(),"Registrado con exito",Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(getApplicationContext()," Disponible no es un numero entero \n o esta vacio",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Direccion esta vacio",Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(getApplicationContext(),"Precio no es un numero \n o esta vacio",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Error en RIF",Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
@@ -106,14 +127,6 @@ public class edit_inventario extends AppCompatActivity {
     private boolean isInt(String numero){
         try {
             int num = Integer.parseInt(numero);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-    private boolean isDob(String numero){
-        try {
-            double num = Integer.parseInt(numero);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -131,38 +144,49 @@ public class edit_inventario extends AppCompatActivity {
     }
     private  void ReadData() {
         SQLiteDatabase db=conn.getReadableDatabase();
-        String [] campos = {tab_inventario.CAMPO_NOMBRE, tab_inventario.CAMPO_PRECIO, tab_inventario.CAMPO_DISPONIBLE};
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO+" ORDER BY " + tab_inventario.CAMPO_NOMBRE + " asc",null);
-        c.moveToFirst();
-        int i=0;
-        if(i!=iterator) {
-            while (i != iterator) {
-                c.moveToNext();
-                i++;
-            }
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaVendedor.TABLA_VENDEDORES+" ORDER BY " + TablaVendedor.CAMPO_NOMBRE + " asc",null);
+        c.moveToPosition(iterator);
+        String ident=c.getString(1).substring(0,1);
+        switch(ident){
+            case "E":
+                rifident.setSelection(0);
+                break;
+            case "G":
+                rifident.setSelection(1);
+                break;
+            case "J":
+                rifident.setSelection(2);
+                break;
+            case "V":
+                rifident.setSelection(3);
+                break;
         }
-        nombre = c.getString(1).toString().toUpperCase();
-        precio = c.getString(2).toString();
-        disponible = c.getString(3).toString();
+        nombre = c.getString(1).toUpperCase();
+        rif2 = c.getString(2).substring(2);
+        direccion = c.getString(3);
+        telefono=c.getString(4);
+        correo=c.getString(5);
         db.close();
     }
     private void registrar() {
+        Conector conn=new Conector(this, TablaVendedor.TABLA_VENDEDORES,null,1);
         SQLiteDatabase db=conn.getWritableDatabase();
         ContentValues values=new ContentValues();
-        Cursor c = db.rawQuery("SELECT "+ tab_inventario.ID_INVENTARIO+" FROM "+ tab_inventario.TABLA_INVENTARIO+" ORDER BY " + tab_inventario.ID_INVENTARIO+ " asc",null);
+        Cursor c = db.rawQuery("SELECT "+ TablaVendedor.ID_VENDEDORES+" FROM "+ TablaVendedor.TABLA_VENDEDORES+" ORDER BY " + TablaVendedor.ID_VENDEDORES+ " asc",null);
         String Row="0";
         if (checkdb(c)) {
             c.moveToLast();
             Row=""+(Integer.parseInt(c.getString(0))+1);
         }
         c.close();
-        values.put(tab_inventario.ID_INVENTARIO,Row);
-        values.put(tab_inventario.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
-        values.put(tab_inventario.CAMPO_PRECIO,p.getText().toString());
-        values.put(tab_inventario.CAMPO_DISPONIBLE,d.getText().toString());
-
-        db.insert(tab_inventario.TABLA_INVENTARIO, tab_inventario.CAMPO_NOMBRE,values);
-        c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO,null);
+        values.put(TablaVendedor.ID_VENDEDORES,Row);
+        values.put(TablaVendedor.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
+        values.put(TablaVendedor.CAMPO_RIF,rifident.getSelectedItem().toString()+"-"+r.getText().toString());
+        values.put(TablaVendedor.CAMPO_DIRECCION,d.getText().toString());
+        values.put(TablaVendedor.CAMPO_TELEFONO,t.getText().toString());
+        values.put(TablaVendedor.CAMPO_EMAIL,em.getText().toString());
+        db.insert(TablaVendedor.TABLA_VENDEDORES, TablaVendedor.ID_VENDEDORES,values);
+        c = db.rawQuery("SELECT * FROM "+ TablaVendedor.TABLA_VENDEDORES,null);
         c.moveToFirst();
         c.close();
         db.close();
@@ -186,15 +210,15 @@ public class edit_inventario extends AppCompatActivity {
         final EditText edtText = new EditText(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Eliminar");
-        builder.setMessage("¿Eliminar del inventario?");
+        builder.setMessage("¿Eliminar de la lista de clientes?");
         builder.setCancelable(false);
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SQLiteDatabase db=conn.getWritableDatabase();
-                db.delete(tab_inventario.TABLA_INVENTARIO, tab_inventario.CAMPO_NOMBRE + "='" + nombre+"'", null);
+                db.delete(TablaVendedor.TABLA_VENDEDORES, TablaVendedor.CAMPO_NOMBRE + "='" + nombre+"'", null);
                 db.close();
-                Toast.makeText(getApplicationContext(),n.getText().toString().toUpperCase() + " fue eliminado del inventario",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),n.getText().toString().toUpperCase() + " fue eliminado de los vendedores",Toast.LENGTH_SHORT).show();
                 backf();
             }
         });
@@ -211,7 +235,7 @@ public class edit_inventario extends AppCompatActivity {
         final EditText edtText = new EditText(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Modificar");
-        builder.setMessage("¿Modificar en el inventario?");
+        builder.setMessage("¿Modificar el vendedor?");
         builder.setCancelable(false);
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @SuppressLint("RestrictedApi")
@@ -219,12 +243,12 @@ public class edit_inventario extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 band_edit=0;
                 SQLiteDatabase db=conn.getReadableDatabase();
-                db.delete(tab_inventario.TABLA_INVENTARIO, tab_inventario.CAMPO_NOMBRE + "='" + nombre+"'", null);
+                db.delete(TablaVendedor.TABLA_VENDEDORES, TablaVendedor.CAMPO_NOMBRE + "='" + nombre+"'", null);
                 registrar();
                 n.setEnabled(false);
-                p.setEnabled(false);
+                r.setEnabled(false);
                 d.setEnabled(false);
-                yes.setVisibility(View.INVISIBLE);
+                y.setVisibility(View.INVISIBLE);
                 edit.setImageResource(R.mipmap.ic_edit);
                 Toast.makeText(getApplicationContext(),"Cambio registrado con exito",Toast.LENGTH_SHORT).show();
                 backf();
@@ -238,5 +262,13 @@ public class edit_inventario extends AppCompatActivity {
         });
 
         builder.show();
+    }
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

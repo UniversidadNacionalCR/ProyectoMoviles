@@ -1,6 +1,6 @@
-package unknown.Sistema_Inventario_Android.TABLAS;
+package unknown.Sistema_Inventario_Android.Tablas;
 
-public class tab_client {
+public class TablaCliente {
     //Constantes campos tabla cliente
     public static final String TABLA_CLIENTE="CLIENTES";
     public static final String ID_CLIENTES="ID";

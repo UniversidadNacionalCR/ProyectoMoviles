@@ -1,5 +1,4 @@
-
-package unknown.Sistema_Inventario_Android.ADD;
+package unknown.Sistema_Inventario_Android.Agregado;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -9,22 +8,18 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.Clientes;
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Inventario;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_client;
+import unknown.Sistema_Inventario_Android.Tablas.TablaInventario;
 
-public class add_clientes extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class AgregaInventario extends AppCompatActivity {
     ImageView back;
-    Spinner rifident;
-    EditText n,r,d;
+    EditText n,p,d;
     FloatingActionButton y;
     int grade;
     @Override
@@ -34,21 +29,16 @@ public class add_clientes extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_clientes);
+        setContentView(R.layout.activity_add_inventario);
         grade = Integer.parseInt(getIntent().getExtras().get("grade").toString());
-        rifident=(Spinner) findViewById(R.id.spinner_rif);
-        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this,R.array.rif_ident,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rifident.setAdapter(adapter);
-        rifident.setOnItemSelectedListener(this);
-        n= (EditText) findViewById(R.id.nombre);
-        r= (EditText) findViewById(R.id.rif2);
-        d= (EditText) findViewById(R.id.direccion);
+        n=(EditText) findViewById(R.id.nombre);
+        p=(EditText) findViewById(R.id.precio);
+        d=(EditText) findViewById(R.id.disponibilidad);
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                onBackPressed();
+                backf();
             }
         });
         y = (FloatingActionButton) findViewById(R.id.b_add);
@@ -56,20 +46,20 @@ public class add_clientes extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view){
                 if (isStr(n.getText().toString().toUpperCase())){
-                    if (isInt(r.getText().toString()) && r.getText().toString().length()==9){
-                        if (isStr(d.getText().toString())){
-                            if(!isExist(rifident.getSelectedItem().toString()+"-"+r.getText().toString())){
+                    if (isDob(p.getText().toString())){
+                        if (isInt(d.getText().toString())){
+                            if(!isExist(n.getText().toString().toUpperCase())){
                                 registrar();
                                 Toast.makeText(getApplicationContext(),"Registrado con exito",Toast.LENGTH_SHORT).show();
                                 backf();
                             }else{
-                                Toast.makeText(getApplicationContext(),"El cliente ya esta registrado",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"El producto ya existe en inventario",Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(getApplicationContext()," Direccion esta vacio",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext()," Disponible no es un numero entero \n o esta vacio",Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(getApplicationContext(),"Error en RIF",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Precio no es un numero \n o esta vacio",Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
@@ -77,27 +67,27 @@ public class add_clientes extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
         });
+
     }
     private boolean isExist(String n){
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_client.TABLA_CLIENTE,null,1);
+        int bandExist=0;
+        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE+" ORDER BY " + tab_client.CAMPO_NOMBRE + " asc",null);
+        String [] campos = {TablaInventario.CAMPO_NOMBRE, TablaInventario.CAMPO_PRECIO, TablaInventario.CAMPO_DISPONIBLE};
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.CAMPO_NOMBRE + " asc",null);
 
         if (checkdb(c)) {
             c.moveToFirst();
             do{
-                if(n==c.getString(2) || n.equals(c.getString(2)) ) {
-                    c.close();
+                if(n==c.getString(0) || n.equals(c.getString(0)) ) {
                     db.close();
                     return true;
                 }
             }while(c.moveToNext());
-            c.close();
             db.close();
             return false;
 
         } else{
-            c.close();
             db.close();
             return false;
         }
@@ -118,7 +108,7 @@ public class add_clientes extends AppCompatActivity implements AdapterView.OnIte
         return rowExists;
     }
     private void backf(){
-        Intent intent = new Intent (getApplicationContext(), Clientes.class);
+        Intent intent = new Intent (getApplicationContext(), Inventario.class);
         intent.putExtra("grade",grade);
         startActivityForResult(intent,1);
         finish();
@@ -126,6 +116,14 @@ public class add_clientes extends AppCompatActivity implements AdapterView.OnIte
     private boolean isInt(String numero){
         try {
             int num = Integer.parseInt(numero);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    private boolean isDob(String numero){
+        try {
+            double num = Double.parseDouble(numero);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -142,33 +140,26 @@ public class add_clientes extends AppCompatActivity implements AdapterView.OnIte
         }
     }
     private void registrar() {
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_client.TABLA_CLIENTE,null,1);
+        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
         SQLiteDatabase db=conn.getWritableDatabase();
         ContentValues values=new ContentValues();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE+" ORDER BY " + tab_client.ID_CLIENTES+ " asc",null);
+        Cursor c = db.rawQuery("SELECT "+ TablaInventario.ID_INVENTARIO+" FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.ID_INVENTARIO+ " asc",null);
         String Row="0";
         if (checkdb(c)) {
             c.moveToLast();
             Row=""+(Integer.parseInt(c.getString(0))+1);
         }
-        values.put(tab_client.ID_CLIENTES,Row);
-        values.put(tab_client.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
-        values.put(tab_client.CAMPO_RIF,rifident.getSelectedItem().toString()+"-"+r.getText().toString());
-        values.put(tab_client.CAMPO_DIRECCION,d.getText().toString());
-        db.insert(tab_client.TABLA_CLIENTE, tab_client.CAMPO_NOMBRE,values);
-        c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE,null);
+        c.close();
+        values.put(TablaInventario.ID_INVENTARIO,Row);
+        values.put(TablaInventario.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
+        values.put(TablaInventario.CAMPO_PRECIO,p.getText().toString());
+        values.put(TablaInventario.CAMPO_DISPONIBLE,d.getText().toString());
+
+        db.insert(TablaInventario.TABLA_INVENTARIO, TablaInventario.CAMPO_NOMBRE,values);
+        c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO,null);
         c.moveToFirst();
         c.close();
         db.close();
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }

@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.ADD;
+package unknown.Sistema_Inventario_Android.Agregado;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -19,13 +19,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.usuarios;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Usuarios;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_user;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.TablaUsuario;
 
-public class add_usuarios extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_user.TABLA_USUARIOS,null,1);
+public class AgregaUsuarios extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+    Conector conn=new Conector(this, TablaUsuario.TABLA_USUARIOS,null,1);
     ImageView back;
     Spinner user_levels;
     EditText user,pass;
@@ -38,7 +38,7 @@ public class add_usuarios extends AppCompatActivity implements AdapterView.OnIte
         backf();
     }
     private void backf(){
-        Intent intent = new Intent (getApplicationContext(), usuarios.class);
+        Intent intent = new Intent (getApplicationContext(), Usuarios.class);
         intent.putExtra("grade",grade);
         startActivityForResult(intent,1);
         finish();
@@ -49,7 +49,7 @@ public class add_usuarios extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_add_usuarios);
         grade = Integer.parseInt(getIntent().getExtras().get("grade").toString());
         SQLiteDatabase db=conn.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_user.TABLA_USUARIOS+" ORDER BY " + tab_user.ID_USER+ " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaUsuario.TABLA_USUARIOS+" ORDER BY " + TablaUsuario.ID_USER+ " asc",null);
         c.moveToLast();
         Row=""+(Integer.parseInt(c.getString(0))+1);
         id =(TextView)  findViewById(R.id.id);
@@ -114,22 +114,22 @@ public class add_usuarios extends AppCompatActivity implements AdapterView.OnIte
     private void registrar() {
         ContentValues values=new ContentValues();
         SQLiteDatabase db=conn.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_user.TABLA_USUARIOS+" ORDER BY " + tab_user.ID_USER+ " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaUsuario.TABLA_USUARIOS+" ORDER BY " + TablaUsuario.ID_USER+ " asc",null);
         c.moveToLast();
-        values.put(tab_user.ID_USER,Row);
-        values.put(tab_user.CAMPO_USER,user.getText().toString().toUpperCase());
-        values.put(tab_user.CAMPO_PASS,pass.getText().toString().toUpperCase());
-        values.put(tab_user.CAMPO_RANK,user_levels.getSelectedItem().toString());
-        db.insert(tab_user.TABLA_USUARIOS, tab_user.ID_USER,values);
-        c = db.rawQuery("SELECT * FROM "+ tab_user.TABLA_USUARIOS,null);
+        values.put(TablaUsuario.ID_USER,Row);
+        values.put(TablaUsuario.CAMPO_USER,user.getText().toString().toUpperCase());
+        values.put(TablaUsuario.CAMPO_PASS,pass.getText().toString().toUpperCase());
+        values.put(TablaUsuario.CAMPO_RANK,user_levels.getSelectedItem().toString());
+        db.insert(TablaUsuario.TABLA_USUARIOS, TablaUsuario.ID_USER,values);
+        c = db.rawQuery("SELECT * FROM "+ TablaUsuario.TABLA_USUARIOS,null);
         c.moveToFirst();
         c.close();
         db.close();
     }
     private boolean isExist(String n){
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_user.TABLA_USUARIOS,null,1);
+        Conector conn=new Conector(this, TablaUsuario.TABLA_USUARIOS,null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_user.TABLA_USUARIOS+" ORDER BY " + tab_user.CAMPO_USER + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaUsuario.TABLA_USUARIOS+" ORDER BY " + TablaUsuario.CAMPO_USER + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{

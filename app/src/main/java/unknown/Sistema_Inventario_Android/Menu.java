@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.Clientes;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.Inventario;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.Ventas;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.usuarios;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.vendedores;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Clientes;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Inventario;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Ventas;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Usuarios;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Vendedores;
 
-public class menu extends AppCompatActivity {
+public class Menu extends AppCompatActivity {
     LinearLayout binventario;
     LinearLayout bvendedores;
     LinearLayout bventas;
@@ -62,7 +62,7 @@ public class menu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (grade < 4) {
-                    Intent intent = new Intent(getApplicationContext(), vendedores.class);
+                    Intent intent = new Intent(getApplicationContext(), Vendedores.class);
                     intent.putExtra("grade", grade);
                     startActivity(intent);
                 }else{
@@ -75,7 +75,7 @@ public class menu extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 if(grade<3) {
-                    Intent intent = new Intent(getApplicationContext(), usuarios.class);
+                    Intent intent = new Intent(getApplicationContext(), Usuarios.class);
                     intent.putExtra("grade", grade);
                     startActivity(intent);
                 }else{

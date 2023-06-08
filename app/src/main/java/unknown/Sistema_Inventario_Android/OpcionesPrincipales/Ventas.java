@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.MAIN_OPTIONS;
+package unknown.Sistema_Inventario_Android.OpcionesPrincipales;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,22 +11,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.ADD.add_clientes;
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
-import unknown.Sistema_Inventario_Android.EDIT.edit_clientes;
+import unknown.Sistema_Inventario_Android.Agregado.AgregaVentas;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_client;
-import unknown.Sistema_Inventario_Android.menu;
+import unknown.Sistema_Inventario_Android.Tablas.TablaVenta;
+import unknown.Sistema_Inventario_Android.Menu;
 
-public class Clientes extends AppCompatActivity {
+public class Ventas extends AppCompatActivity {
     ImageView back;
     FloatingActionButton add;
     ListView lista;
-    ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_client.TABLA_CLIENTE,null,1);
-    int grade;
+    Conector conn=new Conector(this, TablaVenta.TABLA_VENTA,null,1);
     ArrayAdapter<String> adapter;
+    int grade;
     @Override
     public void onBackPressed(){
         backf();
@@ -34,9 +32,17 @@ public class Clientes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clientes);
+        setContentView(R.layout.activity_ventas);
         grade = Integer.parseInt(getIntent().getExtras().get("grade").toString());
+        lista= (ListView) findViewById(R.id.lista_contenido);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                /*EMPTY*/
+            }
+        });
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+        fillData();
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -44,48 +50,27 @@ public class Clientes extends AppCompatActivity {
                 backf();
             }
         });
-        lista= (ListView) findViewById(R.id.lista_contenido);
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(grade<=2){
-                Intent intent = new Intent (getApplicationContext(), edit_clientes.class);
-                intent.putExtra("iterator",i);
-                intent.putExtra("grade",grade);
-                startActivityForResult(intent,2);
-                finish();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Nivel de usuario insuficiente",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
         add = (FloatingActionButton) findViewById(R.id.b_add);
         add.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view){
-                if(grade<=3){
-                Intent intent = new Intent (getApplicationContext(), add_clientes.class);
+                Intent intent = new Intent (getApplicationContext(), AgregaVentas.class);
                 intent.putExtra("grade",grade);
                 startActivityForResult(intent,2);
                 finish();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Nivel de usuario insuficiente",Toast.LENGTH_SHORT).show();
-                }
             }
         });
-        fillData();
-    }//oncreate
+
+    }
     private  void fillData() {
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE+" ORDER BY " + tab_client.CAMPO_NOMBRE + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaVenta.TABLA_VENTA+" ORDER BY " + TablaVenta.ID_VENTAS + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{
-                adapter.add(c.getString(1) + "\n RIF: "+ c.getString(2));
+                adapter.add(c.getString(0) + "\nCliente: "+ c.getString(1));
             }while(c.moveToNext());
             lista.setAdapter(adapter);
-            c.close();
             db.close();
         }
     }
@@ -105,7 +90,7 @@ public class Clientes extends AppCompatActivity {
         return rowExists;
     }
     private void backf(){
-        Intent intent = new Intent (getApplicationContext(), menu.class);
+        Intent intent = new Intent (getApplicationContext(), Menu.class);
         intent.putExtra("grade",grade);
         startActivityForResult(intent,0);
         finish();
