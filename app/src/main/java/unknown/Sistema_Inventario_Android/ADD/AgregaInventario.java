@@ -12,12 +12,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.Inventario;
+import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Inventario;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_inventario;
+import unknown.Sistema_Inventario_Android.TABLAS.TablaInventario;
 
-public class add_inventario extends AppCompatActivity {
+public class AgregaInventario extends AppCompatActivity {
     ImageView back;
     EditText n,p,d;
     FloatingActionButton y;
@@ -71,10 +71,10 @@ public class add_inventario extends AppCompatActivity {
     }
     private boolean isExist(String n){
         int bandExist=0;
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_inventario.TABLA_INVENTARIO,null,1);
+        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        String [] campos = {tab_inventario.CAMPO_NOMBRE, tab_inventario.CAMPO_PRECIO, tab_inventario.CAMPO_DISPONIBLE};
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO+" ORDER BY " + tab_inventario.CAMPO_NOMBRE + " asc",null);
+        String [] campos = {TablaInventario.CAMPO_NOMBRE, TablaInventario.CAMPO_PRECIO, TablaInventario.CAMPO_DISPONIBLE};
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.CAMPO_NOMBRE + " asc",null);
 
         if (checkdb(c)) {
             c.moveToFirst();
@@ -140,23 +140,23 @@ public class add_inventario extends AppCompatActivity {
         }
     }
     private void registrar() {
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_inventario.TABLA_INVENTARIO,null,1);
+        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
         SQLiteDatabase db=conn.getWritableDatabase();
         ContentValues values=new ContentValues();
-        Cursor c = db.rawQuery("SELECT "+ tab_inventario.ID_INVENTARIO+" FROM "+ tab_inventario.TABLA_INVENTARIO+" ORDER BY " + tab_inventario.ID_INVENTARIO+ " asc",null);
+        Cursor c = db.rawQuery("SELECT "+ TablaInventario.ID_INVENTARIO+" FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.ID_INVENTARIO+ " asc",null);
         String Row="0";
         if (checkdb(c)) {
             c.moveToLast();
             Row=""+(Integer.parseInt(c.getString(0))+1);
         }
         c.close();
-        values.put(tab_inventario.ID_INVENTARIO,Row);
-        values.put(tab_inventario.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
-        values.put(tab_inventario.CAMPO_PRECIO,p.getText().toString());
-        values.put(tab_inventario.CAMPO_DISPONIBLE,d.getText().toString());
+        values.put(TablaInventario.ID_INVENTARIO,Row);
+        values.put(TablaInventario.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
+        values.put(TablaInventario.CAMPO_PRECIO,p.getText().toString());
+        values.put(TablaInventario.CAMPO_DISPONIBLE,d.getText().toString());
 
-        db.insert(tab_inventario.TABLA_INVENTARIO, tab_inventario.CAMPO_NOMBRE,values);
-        c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO,null);
+        db.insert(TablaInventario.TABLA_INVENTARIO, TablaInventario.CAMPO_NOMBRE,values);
+        c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO,null);
         c.moveToFirst();
         c.close();
         db.close();

@@ -16,12 +16,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.Clientes;
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Clientes;
+import unknown.Sistema_Inventario_Android.TABLAS.Conector;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_client;
+import unknown.Sistema_Inventario_Android.TABLAS.TablaCliente;
 
-public class add_clientes extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class RegistraCliente extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     ImageView back;
     Spinner rifident;
     EditText n,r,d;
@@ -79,9 +79,9 @@ public class add_clientes extends AppCompatActivity implements AdapterView.OnIte
         });
     }
     private boolean isExist(String n){
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_client.TABLA_CLIENTE,null,1);
+        Conector conn=new Conector(this, TablaCliente.TABLA_CLIENTE,null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE+" ORDER BY " + tab_client.CAMPO_NOMBRE + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaCliente.TABLA_CLIENTE+" ORDER BY " + TablaCliente.CAMPO_NOMBRE + " asc",null);
 
         if (checkdb(c)) {
             c.moveToFirst();
@@ -142,21 +142,21 @@ public class add_clientes extends AppCompatActivity implements AdapterView.OnIte
         }
     }
     private void registrar() {
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_client.TABLA_CLIENTE,null,1);
+        Conector conn=new Conector(this, TablaCliente.TABLA_CLIENTE,null,1);
         SQLiteDatabase db=conn.getWritableDatabase();
         ContentValues values=new ContentValues();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE+" ORDER BY " + tab_client.ID_CLIENTES+ " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaCliente.TABLA_CLIENTE+" ORDER BY " + TablaCliente.ID_CLIENTES+ " asc",null);
         String Row="0";
         if (checkdb(c)) {
             c.moveToLast();
             Row=""+(Integer.parseInt(c.getString(0))+1);
         }
-        values.put(tab_client.ID_CLIENTES,Row);
-        values.put(tab_client.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
-        values.put(tab_client.CAMPO_RIF,rifident.getSelectedItem().toString()+"-"+r.getText().toString());
-        values.put(tab_client.CAMPO_DIRECCION,d.getText().toString());
-        db.insert(tab_client.TABLA_CLIENTE, tab_client.CAMPO_NOMBRE,values);
-        c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE,null);
+        values.put(TablaCliente.ID_CLIENTES,Row);
+        values.put(TablaCliente.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
+        values.put(TablaCliente.CAMPO_RIF,rifident.getSelectedItem().toString()+"-"+r.getText().toString());
+        values.put(TablaCliente.CAMPO_DIRECCION,d.getText().toString());
+        db.insert(TablaCliente.TABLA_CLIENTE, TablaCliente.CAMPO_NOMBRE,values);
+        c = db.rawQuery("SELECT * FROM "+ TablaCliente.TABLA_CLIENTE,null);
         c.moveToFirst();
         c.close();
         db.close();

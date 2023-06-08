@@ -1,6 +1,6 @@
 package unknown.Sistema_Inventario_Android.TABLAS;
 
-public class tab_inventario {
+public class TablaInventario {
 
     //Constantes campos tabla inventario
     public static final String TABLA_INVENTARIO="INVENTARIO";

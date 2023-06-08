@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.MAIN_OPTIONS;
+package unknown.Sistema_Inventario_Android.OpcionesPrincipales;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,20 +13,20 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.ADD.add_clientes;
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
-import unknown.Sistema_Inventario_Android.EDIT.edit_clientes;
+import unknown.Sistema_Inventario_Android.ADD.AgregaVendedores;
+import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Edicion.VendedoresEdicion;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_client;
-import unknown.Sistema_Inventario_Android.menu;
+import unknown.Sistema_Inventario_Android.TABLAS.TablaVendedor;
+import unknown.Sistema_Inventario_Android.Menu;
 
-public class Clientes extends AppCompatActivity {
+public class Vendedores extends AppCompatActivity {
     ImageView back;
     FloatingActionButton add;
     ListView lista;
-    ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_client.TABLA_CLIENTE,null,1);
-    int grade;
+    Conector conn=new Conector(this, TablaVendedor.TABLA_VENDEDORES,null,1);
     ArrayAdapter<String> adapter;
+    int grade;
     @Override
     public void onBackPressed(){
         backf();
@@ -34,58 +34,67 @@ public class Clientes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clientes);
+        setContentView(R.layout.activity_vendedores);
         grade = Integer.parseInt(getIntent().getExtras().get("grade").toString());
+        lista= (ListView) findViewById(R.id.lista_contenido);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(grade<3) {
+                    Intent intent = new Intent(getApplicationContext(), VendedoresEdicion.class);
+                    intent.putExtra("iterator", i);
+                    intent.putExtra("grade", grade);
+                    startActivityForResult(intent, 2);
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Nivel de usuario insuficiente",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                backf();
-            }
-        });
-        lista= (ListView) findViewById(R.id.lista_contenido);
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(grade<=2){
-                Intent intent = new Intent (getApplicationContext(), edit_clientes.class);
-                intent.putExtra("iterator",i);
-                intent.putExtra("grade",grade);
-                startActivityForResult(intent,2);
-                finish();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Nivel de usuario insuficiente",Toast.LENGTH_SHORT).show();
-                }
+                onBackPressed();
             }
         });
         add = (FloatingActionButton) findViewById(R.id.b_add);
         add.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view){
-                if(grade<=3){
-                Intent intent = new Intent (getApplicationContext(), add_clientes.class);
-                intent.putExtra("grade",grade);
-                startActivityForResult(intent,2);
-                finish();
+                if(grade<3) {
+                    Intent intent = new Intent(getApplicationContext(), AgregaVendedores.class);
+                    intent.putExtra("grade", grade);
+                    startActivityForResult(intent, 2);
+                    finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"Nivel de usuario insuficiente",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        if(grade==2){
+            add.hide();
+        }
         fillData();
-    }//oncreate
+    }
+    private void backf(){
+        Intent intent = new Intent (getApplicationContext(), Menu.class);
+        intent.putExtra("grade",grade);
+        startActivityForResult(intent,0);
+        finish();
+    }
     private  void fillData() {
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE+" ORDER BY " + tab_client.CAMPO_NOMBRE + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaVendedor.TABLA_VENDEDORES+" ORDER BY " + TablaVendedor.CAMPO_NOMBRE + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{
-                adapter.add(c.getString(1) + "\n RIF: "+ c.getString(2));
+                adapter.add(c.getString(1) + "\nRIF: "+ c.getString(2)
+                        +"\nTelefono: "+ c.getString(4)+"\nCorreo: "+ c.getString(5)
+                +"\nDireccion:"+c.getString(3));
             }while(c.moveToNext());
             lista.setAdapter(adapter);
-            c.close();
             db.close();
         }
     }
@@ -103,11 +112,5 @@ public class Clientes extends AppCompatActivity {
             rowExists = false;
         }
         return rowExists;
-    }
-    private void backf(){
-        Intent intent = new Intent (getApplicationContext(), menu.class);
-        intent.putExtra("grade",grade);
-        startActivityForResult(intent,0);
-        finish();
     }
 }

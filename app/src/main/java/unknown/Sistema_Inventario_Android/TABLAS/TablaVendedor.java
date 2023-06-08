@@ -1,6 +1,6 @@
 package unknown.Sistema_Inventario_Android.TABLAS;
 
-public class tab_vendedor {
+public class TablaVendedor {
     //Constantes campos tabla vendedores
     public static final String TABLA_VENDEDORES="VENDEDORES";
     public static final String ID_VENDEDORES="ID";

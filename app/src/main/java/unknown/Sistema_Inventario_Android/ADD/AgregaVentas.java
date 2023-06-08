@@ -22,13 +22,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
+import unknown.Sistema_Inventario_Android.TABLAS.Conector;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.Ventas;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_client;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_inventario;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Ventas;
+import unknown.Sistema_Inventario_Android.TABLAS.TablaCliente;
+import unknown.Sistema_Inventario_Android.TABLAS.TablaInventario;
 
-public class add_ventas extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AgregaVentas extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     ImageView back;
     ListView lista;
     FloatingActionButton y;
@@ -38,7 +38,7 @@ public class add_ventas extends AppCompatActivity implements AdapterView.OnItemS
     List<String> b = new ArrayList<String>();
     int grade;
     int pos=0;
-    ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_inventario.TABLA_INVENTARIO,null,1);
+    Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
     public void onBackPressed(){
         backf();
     }
@@ -85,7 +85,7 @@ public class add_ventas extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onClick(View view){
                 SQLiteDatabase db=conn.getReadableDatabase();
-                Cursor c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO+" ORDER BY " + tab_inventario.CAMPO_NOMBRE + " asc",null);
+                Cursor c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.CAMPO_NOMBRE + " asc",null);
                 c.moveToPosition(producto.getSelectedItemPosition());
                 if(!checklist(c.getString(0),adapterp)){
                 adapterp.add(c.getString(0)+"\n"+cantidad.getSelectedItem().toString()+"x"+(c.getString(2)));
@@ -131,9 +131,9 @@ public class add_ventas extends AppCompatActivity implements AdapterView.OnItemS
         return false;
     }
     private void updatecant(int position){
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_inventario.TABLA_INVENTARIO,null,1);
+        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO+" ORDER BY " + tab_inventario.CAMPO_NOMBRE + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.CAMPO_NOMBRE + " asc",null);
 
         if (checkdb(c)) {
             c.moveToPosition(position);
@@ -152,9 +152,9 @@ public class add_ventas extends AppCompatActivity implements AdapterView.OnItemS
     }
     private void SpinnerData(){
         List<String> a = new ArrayList<String>();
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_inventario.TABLA_INVENTARIO,null,1);
+        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO+" ORDER BY " + tab_inventario.CAMPO_NOMBRE + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.CAMPO_NOMBRE + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{
@@ -169,9 +169,9 @@ public class add_ventas extends AppCompatActivity implements AdapterView.OnItemS
             db.close();
             a.clear();
         }
-        conn=new ConexionSQLiteHelper(this, tab_client.TABLA_CLIENTE,null,1);
+        conn=new Conector(this, TablaCliente.TABLA_CLIENTE,null,1);
         db=conn.getReadableDatabase();
-        c = db.rawQuery("SELECT * FROM "+ tab_client.TABLA_CLIENTE+" ORDER BY " + tab_client.CAMPO_NOMBRE + " asc",null);
+        c = db.rawQuery("SELECT * FROM "+ TablaCliente.TABLA_CLIENTE+" ORDER BY " + TablaCliente.CAMPO_NOMBRE + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{
@@ -188,9 +188,9 @@ public class add_ventas extends AppCompatActivity implements AdapterView.OnItemS
         }
     }
     private boolean isExist(String n){
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_inventario.TABLA_INVENTARIO,null,1);
+        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO+" ORDER BY " + tab_inventario.CAMPO_NOMBRE + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.CAMPO_NOMBRE + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{
@@ -256,15 +256,15 @@ public class add_ventas extends AppCompatActivity implements AdapterView.OnItemS
         }
     }
     private void registrar() {
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_inventario.TABLA_INVENTARIO,null,1);
+        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
         SQLiteDatabase db=conn.getWritableDatabase();
         ContentValues values=new ContentValues();
         //values.put(utilidades.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
         //values.put(utilidades.CAMPO_PRECIO,p.getText().toString());
         //values.put(utilidades.CAMPO_DISPONIBLE,d.getText().toString());
 
-        db.insert(tab_inventario.TABLA_INVENTARIO, tab_inventario.CAMPO_NOMBRE,values);
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_inventario.TABLA_INVENTARIO,null);
+        db.insert(TablaInventario.TABLA_INVENTARIO, TablaInventario.CAMPO_NOMBRE,values);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO,null);
         c.moveToFirst();
         Toast.makeText(getApplicationContext(),"Nombre : "+c.getString(0).toString(),Toast.LENGTH_SHORT).show();
         c.close();

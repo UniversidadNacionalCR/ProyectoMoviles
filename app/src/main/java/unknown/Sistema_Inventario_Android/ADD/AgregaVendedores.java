@@ -15,12 +15,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.TABLAS.ConexionSQLiteHelper;
+import unknown.Sistema_Inventario_Android.TABLAS.Conector;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.tab_vendedor;
-import unknown.Sistema_Inventario_Android.MAIN_OPTIONS.vendedores;
+import unknown.Sistema_Inventario_Android.TABLAS.TablaVendedor;
+import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Vendedores;
 
-public class add_vendedores extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class AgregaVendedores extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     ImageView back;
     Spinner rifident;
     EditText n,r,t,em,d;
@@ -80,9 +80,9 @@ public class add_vendedores extends AppCompatActivity implements AdapterView.OnI
         });
     }
     private boolean isExist(String n){
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_vendedor.TABLA_VENDEDORES,null,1);
+        Conector conn=new Conector(this, TablaVendedor.TABLA_VENDEDORES,null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM "+ tab_vendedor.TABLA_VENDEDORES+" ORDER BY " + tab_vendedor.CAMPO_NOMBRE + " asc",null);
+        Cursor c = db.rawQuery("SELECT * FROM "+ TablaVendedor.TABLA_VENDEDORES+" ORDER BY " + TablaVendedor.CAMPO_NOMBRE + " asc",null);
         if (checkdb(c)) {
             c.moveToFirst();
             do{
@@ -118,7 +118,7 @@ public class add_vendedores extends AppCompatActivity implements AdapterView.OnI
         return rowExists;
     }
     private void backf(){
-        Intent intent = new Intent (getApplicationContext(), vendedores.class);
+        Intent intent = new Intent (getApplicationContext(), Vendedores.class);
         intent.putExtra("grade",grade);
         startActivityForResult(intent,1);
         finish();
@@ -142,24 +142,24 @@ public class add_vendedores extends AppCompatActivity implements AdapterView.OnI
         }
     }
     private void registrar() {
-        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this, tab_vendedor.TABLA_VENDEDORES,null,1);
+        Conector conn=new Conector(this, TablaVendedor.TABLA_VENDEDORES,null,1);
         SQLiteDatabase db=conn.getWritableDatabase();
         ContentValues values=new ContentValues();
-        Cursor c = db.rawQuery("SELECT "+ tab_vendedor.ID_VENDEDORES+" FROM "+ tab_vendedor.TABLA_VENDEDORES+" ORDER BY " + tab_vendedor.ID_VENDEDORES+ " asc",null);
+        Cursor c = db.rawQuery("SELECT "+ TablaVendedor.ID_VENDEDORES+" FROM "+ TablaVendedor.TABLA_VENDEDORES+" ORDER BY " + TablaVendedor.ID_VENDEDORES+ " asc",null);
         String Row="0";
         if (checkdb(c)) {
             c.moveToLast();
             Row=""+(Integer.parseInt(c.getString(0))+1);
         }
         c.close();
-        values.put(tab_vendedor.ID_VENDEDORES,Row);
-        values.put(tab_vendedor.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
-        values.put(tab_vendedor.CAMPO_RIF,rifident.getSelectedItem().toString()+"-"+r.getText().toString());
-        values.put(tab_vendedor.CAMPO_DIRECCION,d.getText().toString());
-        values.put(tab_vendedor.CAMPO_TELEFONO,t.getText().toString());
-        values.put(tab_vendedor.CAMPO_EMAIL,em.getText().toString());
-        db.insert(tab_vendedor.TABLA_VENDEDORES, tab_vendedor.ID_VENDEDORES,values);
-        c = db.rawQuery("SELECT * FROM "+ tab_vendedor.TABLA_VENDEDORES,null);
+        values.put(TablaVendedor.ID_VENDEDORES,Row);
+        values.put(TablaVendedor.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
+        values.put(TablaVendedor.CAMPO_RIF,rifident.getSelectedItem().toString()+"-"+r.getText().toString());
+        values.put(TablaVendedor.CAMPO_DIRECCION,d.getText().toString());
+        values.put(TablaVendedor.CAMPO_TELEFONO,t.getText().toString());
+        values.put(TablaVendedor.CAMPO_EMAIL,em.getText().toString());
+        db.insert(TablaVendedor.TABLA_VENDEDORES, TablaVendedor.ID_VENDEDORES,values);
+        c = db.rawQuery("SELECT * FROM "+ TablaVendedor.TABLA_VENDEDORES,null);
         c.moveToFirst();
         c.close();
         db.close();
