@@ -23,7 +23,7 @@
             android:gravity="center"
             android:text="Login"
             android:textAllCaps="false"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/colorPrimary"
             android:textSize="65sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Usuario:"
-                android:textColor="@android:color/holo_red_dark"
+                android:textColor="@android:color/background_dark"
                 android:textSize="30sp" />
 
             <EditText
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:text="Contraseña:"
-                android:textColor="@android:color/holo_red_dark"
+                android:textColor="@android:color/background_dark"
                 android:textSize="30sp" />
 
             <EditText
@@ -116,7 +116,7 @@
                     android:layout_weight="2"
                     android:checked="false"
                     android:text="Mostrar contraseña"
-                    android:textColorLink="@android:color/holo_green_light"
+                    android:textColorLink="@color/cardview_light_background"
                     android:textSize="24sp" />
             </LinearLayout>
 
@@ -131,7 +131,7 @@
                     android:id="@+id/bcontinuar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/holo_green_dark"
+                    android:background="?attr/colorPrimary"
                     android:text="Continuar"
                     android:textColor="@android:color/background_light"
                     android:textSize="36sp" />

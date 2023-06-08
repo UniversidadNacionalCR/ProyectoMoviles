@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="14"
-        android:background="@android:color/holo_orange_light">
+        android:background="@color/colorPrimary">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Nombre:"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
             <EditText
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Cedula:"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
             <LinearLayout
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Telefono:"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
             <EditText
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Correo:"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
             <EditText
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Direccion:"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
             <EditText
@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
-                app:backgroundTint="@android:color/holo_orange_light"
+                app:backgroundTint="@color/colorPrimary"
                 app:elevation="0dp"
                 app:srcCompat="@mipmap/ic_yes" />
         </LinearLayout>
