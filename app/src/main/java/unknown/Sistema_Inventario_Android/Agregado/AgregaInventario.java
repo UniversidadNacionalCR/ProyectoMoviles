@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.ADD;
+package unknown.Sistema_Inventario_Android.Agregado;
 
 import android.content.ContentValues;
 import android.content.Intent;

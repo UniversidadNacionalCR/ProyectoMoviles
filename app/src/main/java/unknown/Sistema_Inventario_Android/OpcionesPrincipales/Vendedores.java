@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.ADD.AgregaVendedores;
+import unknown.Sistema_Inventario_Android.Agregado.AgregaVendedores;
 import unknown.Sistema_Inventario_Android.TABLAS.Conector;
 import unknown.Sistema_Inventario_Android.Edicion.VendedoresEdicion;
 import unknown.Sistema_Inventario_Android.R;
@@ -90,7 +90,7 @@ public class Vendedores extends AppCompatActivity {
         if (checkdb(c)) {
             c.moveToFirst();
             do{
-                adapter.add(c.getString(1) + "\nRIF: "+ c.getString(2)
+                adapter.add(c.getString(1) + "\nCedula: "+ c.getString(2)
                         +"\nTelefono: "+ c.getString(4)+"\nCorreo: "+ c.getString(5)
                 +"\nDireccion:"+c.getString(3));
             }while(c.moveToNext());

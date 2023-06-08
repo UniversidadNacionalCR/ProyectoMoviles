@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.ADD.RegistraCliente;
+import unknown.Sistema_Inventario_Android.Agregado.RegistraCliente;
 import unknown.Sistema_Inventario_Android.TABLAS.Conector;
 import unknown.Sistema_Inventario_Android.Edicion.ClientesEdicion;
 import unknown.Sistema_Inventario_Android.R;
@@ -82,7 +82,7 @@ public class Clientes extends AppCompatActivity {
         if (checkdb(c)) {
             c.moveToFirst();
             do{
-                adapter.add(c.getString(1) + "\n RIF: "+ c.getString(2));
+                adapter.add(c.getString(1) + "\n Cedula: "+ c.getString(2));
             }while(c.moveToNext());
             lista.setAdapter(adapter);
             c.close();

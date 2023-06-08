@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.ADD;
+package unknown.Sistema_Inventario_Android.Agregado;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;

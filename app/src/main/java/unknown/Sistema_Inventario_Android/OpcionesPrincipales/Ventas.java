@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import unknown.Sistema_Inventario_Android.ADD.AgregaVentas;
+import unknown.Sistema_Inventario_Android.Agregado.AgregaVentas;
 import unknown.Sistema_Inventario_Android.TABLAS.Conector;
 import unknown.Sistema_Inventario_Android.R;
 import unknown.Sistema_Inventario_Android.TABLAS.TablaVenta;

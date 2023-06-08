@@ -22,7 +22,7 @@ import unknown.Sistema_Inventario_Android.TABLAS.Conector;
 import unknown.Sistema_Inventario_Android.R;
 import unknown.Sistema_Inventario_Android.TABLAS.TablaUsuario;
 import unknown.Sistema_Inventario_Android.Menu;
-import unknown.Sistema_Inventario_Android.ADD.AgregaUsuarios;
+import unknown.Sistema_Inventario_Android.Agregado.AgregaUsuarios;
 
 public class Usuarios extends AppCompatActivity {
     ImageView back;
