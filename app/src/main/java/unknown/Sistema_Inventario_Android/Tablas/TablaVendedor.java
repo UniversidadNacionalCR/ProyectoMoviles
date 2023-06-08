@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.TABLAS;
+package unknown.Sistema_Inventario_Android.Tablas;
 
 public class TablaVendedor {
     //Constantes campos tabla vendedores

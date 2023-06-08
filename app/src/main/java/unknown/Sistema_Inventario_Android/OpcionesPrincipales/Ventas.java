@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import unknown.Sistema_Inventario_Android.Agregado.AgregaVentas;
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaVenta;
+import unknown.Sistema_Inventario_Android.Tablas.TablaVenta;
 import unknown.Sistema_Inventario_Android.Menu;
 
 public class Ventas extends AppCompatActivity {

@@ -15,8 +15,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaUsuario;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.TablaUsuario;
 
 public class Main extends AppCompatActivity{
     Button continuar;

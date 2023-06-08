@@ -14,10 +14,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import unknown.Sistema_Inventario_Android.Agregado.AgregaVendedores;
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.Edicion.VendedoresEdicion;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaVendedor;
+import unknown.Sistema_Inventario_Android.Tablas.TablaVendedor;
 import unknown.Sistema_Inventario_Android.Menu;
 
 public class Vendedores extends AppCompatActivity {

@@ -14,10 +14,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import unknown.Sistema_Inventario_Android.Agregado.AgregaInventario;
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.Edicion.InventarioEdicion;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaInventario;
+import unknown.Sistema_Inventario_Android.Tablas.TablaInventario;
 import unknown.Sistema_Inventario_Android.Menu;
 
 public class Inventario extends AppCompatActivity {

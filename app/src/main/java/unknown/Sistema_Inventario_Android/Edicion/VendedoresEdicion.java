@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Vendedores;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaVendedor;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.TablaVendedor;
 
 public class VendedoresEdicion extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     ImageView back,edit;

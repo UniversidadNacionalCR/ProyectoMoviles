@@ -22,11 +22,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.R;
 import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Ventas;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaCliente;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaInventario;
+import unknown.Sistema_Inventario_Android.Tablas.TablaCliente;
+import unknown.Sistema_Inventario_Android.Tablas.TablaInventario;
 
 public class AgregaVentas extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     ImageView back;

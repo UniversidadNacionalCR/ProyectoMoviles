@@ -17,9 +17,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Clientes;
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaCliente;
+import unknown.Sistema_Inventario_Android.Tablas.TablaCliente;
 
 public class RegistraCliente extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     ImageView back;

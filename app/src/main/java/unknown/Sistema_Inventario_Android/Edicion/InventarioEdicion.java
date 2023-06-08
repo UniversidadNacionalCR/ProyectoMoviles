@@ -15,10 +15,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Inventario;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaInventario;
+import unknown.Sistema_Inventario_Android.Tablas.TablaInventario;
 
 public class InventarioEdicion extends AppCompatActivity {
     ImageView back,edit;

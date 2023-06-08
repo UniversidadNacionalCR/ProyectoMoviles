@@ -21,8 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import unknown.Sistema_Inventario_Android.OpcionesPrincipales.Usuarios;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaUsuario;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.TablaUsuario;
 
 public class AgregaUsuarios extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     Conector conn=new Conector(this, TablaUsuario.TABLA_USUARIOS,null,1);

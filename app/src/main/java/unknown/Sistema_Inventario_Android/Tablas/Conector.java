@@ -1,4 +1,4 @@
-package unknown.Sistema_Inventario_Android.TABLAS;
+package unknown.Sistema_Inventario_Android.Tablas;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

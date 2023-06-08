@@ -18,9 +18,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaUsuario;
+import unknown.Sistema_Inventario_Android.Tablas.TablaUsuario;
 import unknown.Sistema_Inventario_Android.Menu;
 import unknown.Sistema_Inventario_Android.Agregado.AgregaUsuarios;
 

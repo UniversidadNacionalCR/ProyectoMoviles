@@ -14,10 +14,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import unknown.Sistema_Inventario_Android.Agregado.RegistraCliente;
-import unknown.Sistema_Inventario_Android.TABLAS.Conector;
+import unknown.Sistema_Inventario_Android.Tablas.Conector;
 import unknown.Sistema_Inventario_Android.Edicion.ClientesEdicion;
 import unknown.Sistema_Inventario_Android.R;
-import unknown.Sistema_Inventario_Android.TABLAS.TablaCliente;
+import unknown.Sistema_Inventario_Android.Tablas.TablaCliente;
 import unknown.Sistema_Inventario_Android.Menu;
 
 public class Clientes extends AppCompatActivity {
