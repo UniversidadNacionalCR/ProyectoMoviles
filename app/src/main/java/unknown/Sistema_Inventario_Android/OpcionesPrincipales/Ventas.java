@@ -75,19 +75,7 @@ public class Ventas extends AppCompatActivity {
         }
     }
     public Boolean checkdb(Cursor c){
-        Boolean rowExists;
-
-        if (c.moveToFirst())
-        {
-            // DO SOMETHING WITH CURSOR
-            rowExists = true;
-
-        } else
-        {
-            // I AM EMPTY
-            rowExists = false;
-        }
-        return rowExists;
+        return c.moveToFirst();
     }
     private void backf(){
         Intent intent = new Intent (getApplicationContext(), Menu.class);

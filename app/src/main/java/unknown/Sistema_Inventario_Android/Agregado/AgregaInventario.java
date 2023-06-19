@@ -93,19 +93,7 @@ public class AgregaInventario extends AppCompatActivity {
         }
     }
     public Boolean checkdb(Cursor c){
-        Boolean rowExists;
-
-        if (c.moveToFirst())
-        {
-            // DO SOMETHING WITH CURSOR
-            rowExists = true;
-
-        } else
-        {
-            // I AM EMPTY
-            rowExists = false;
-        }
-        return rowExists;
+        return c.moveToFirst();
     }
     private void backf(){
         Intent intent = new Intent (getApplicationContext(), Inventario.class);
@@ -129,36 +117,30 @@ public class AgregaInventario extends AppCompatActivity {
             return false;
         }
     }
-    private boolean isStr(String ed_text){
-        if(ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+    private boolean isStr(String texto){
+        return !(texto.isEmpty() || texto.length() == 0 || texto.equals("") || texto == null);
     }
     private void registrar() {
-        Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
-        SQLiteDatabase db=conn.getWritableDatabase();
+        Conector conector =new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);
+        SQLiteDatabase db=conector.getWritableDatabase();
         ContentValues values=new ContentValues();
-        Cursor c = db.rawQuery("SELECT "+ TablaInventario.ID_INVENTARIO+" FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.ID_INVENTARIO+ " asc",null);
+        Cursor cursor =
+                db.rawQuery("SELECT "+ TablaInventario.ID_INVENTARIO+" FROM "+ TablaInventario.TABLA_INVENTARIO+" ORDER BY " + TablaInventario.ID_INVENTARIO+ " asc",null);
         String Row="0";
-        if (checkdb(c)) {
-            c.moveToLast();
-            Row=""+(Integer.parseInt(c.getString(0))+1);
+        if (checkdb(cursor)) {
+            cursor.moveToLast();
+            Row=""+(Integer.parseInt(cursor.getString(0))+1);
         }
-        c.close();
+        cursor.close();
         values.put(TablaInventario.ID_INVENTARIO,Row);
         values.put(TablaInventario.CAMPO_NOMBRE,n.getText().toString().toUpperCase());
         values.put(TablaInventario.CAMPO_PRECIO,p.getText().toString());
         values.put(TablaInventario.CAMPO_DISPONIBLE,d.getText().toString());
 
         db.insert(TablaInventario.TABLA_INVENTARIO, TablaInventario.CAMPO_NOMBRE,values);
-        c = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO,null);
-        c.moveToFirst();
-        c.close();
+        cursor = db.rawQuery("SELECT * FROM "+ TablaInventario.TABLA_INVENTARIO,null);
+        cursor.moveToFirst();
+        cursor.close();
         db.close();
     }
 
