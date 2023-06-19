@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="391dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
@@ -129,8 +129,8 @@
 
                 <Button
                     android:id="@+id/bcontinuar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="321dp"
+                    android:layout_height="89dp"
                     android:background="?attr/colorPrimary"
                     android:text="Continuar"
                     android:textColor="@android:color/background_light"
