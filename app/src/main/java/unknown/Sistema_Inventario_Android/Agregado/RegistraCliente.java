@@ -103,19 +103,8 @@ public class RegistraCliente extends AppCompatActivity implements AdapterView.On
         }
     }
     public Boolean checkdb(Cursor c){
-        Boolean rowExists;
 
-        if (c.moveToFirst())
-        {
-            // DO SOMETHING WITH CURSOR
-            rowExists = true;
-
-        } else
-        {
-            // I AM EMPTY
-            rowExists = false;
-        }
-        return rowExists;
+        return c.moveToFirst();
     }
     private void backf(){
         Intent intent = new Intent (getApplicationContext(), Clientes.class);
@@ -132,14 +121,7 @@ public class RegistraCliente extends AppCompatActivity implements AdapterView.On
         }
     }
     private boolean isStr(String ed_text){
-        if(ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !(ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null);
     }
     private void registrar() {
         Conector conn=new Conector(this, TablaCliente.TABLA_CLIENTE,null,1);

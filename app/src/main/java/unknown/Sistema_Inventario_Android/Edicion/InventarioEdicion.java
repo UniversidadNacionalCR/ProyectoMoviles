@@ -119,14 +119,7 @@ public class InventarioEdicion extends AppCompatActivity {
         }
     }
     private boolean isStr(String ed_text){
-        if(ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !(ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null);
     }
     private  void ReadData() {
         SQLiteDatabase db=conn.getReadableDatabase();
@@ -167,19 +160,7 @@ public class InventarioEdicion extends AppCompatActivity {
         db.close();
     }
     public Boolean checkdb(Cursor c){
-        Boolean rowExists;
-
-        if (c.moveToFirst())
-        {
-            // DO SOMETHING WITH CURSOR
-            rowExists = true;
-
-        } else
-        {
-            // I AM EMPTY
-            rowExists = false;
-        }
-        return rowExists;
+        return c.moveToFirst();
     }
     private void promptDialogedit() {
         final EditText edtText = new EditText(this);

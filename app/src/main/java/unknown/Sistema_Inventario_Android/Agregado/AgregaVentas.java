@@ -209,19 +209,8 @@ public class AgregaVentas extends AppCompatActivity implements AdapterView.OnIte
         }
     }
     public Boolean checkdb(Cursor c){
-        Boolean rowExists;
 
-        if (c.moveToFirst())
-        {
-            // DO SOMETHING WITH CURSOR
-            rowExists = true;
-
-        } else
-        {
-            // I AM EMPTY
-            rowExists = false;
-        }
-        return rowExists;
+        return c.moveToFirst();
     }
     private void backf(){
         Intent intent = new Intent (getApplicationContext(), Ventas.class);
@@ -246,14 +235,7 @@ public class AgregaVentas extends AppCompatActivity implements AdapterView.OnIte
         }
     }
     private boolean isStr(String ed_text){
-        if(ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !(ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null);
     }
     private void registrar() {
         Conector conn=new Conector(this, TablaInventario.TABLA_INVENTARIO,null,1);

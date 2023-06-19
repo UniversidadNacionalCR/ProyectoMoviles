@@ -96,24 +96,11 @@ public class Main extends AppCompatActivity{
         }
     }
     public Boolean checkdb(Cursor c){
-        Boolean rowExists;
-
-        if (c.moveToFirst())
-        {
-            // DO SOMETHING WITH CURSOR
-            rowExists = true;
-
-        } else
-        {
-
-            rowExists = false;
-        }
-        return rowExists;
+        return c.moveToFirst();
     }
     private void initdbuser() {
         SQLiteDatabase db=conn.getWritableDatabase();
         ContentValues values=new ContentValues();
-        //0
         values.put(TablaUsuario.ID_USER,"0");
         values.put(TablaUsuario.CAMPO_USER,"admin");
         values.put(TablaUsuario.CAMPO_PASS,"admin");

@@ -156,19 +156,8 @@ public class ClientesEdicion extends AppCompatActivity implements AdapterView.On
         db.close();
     }
     public Boolean checkdb(Cursor c){
-        Boolean rowExists;
 
-        if (c.moveToFirst())
-        {
-            // DO SOMETHING WITH CURSOR
-            rowExists = true;
-
-        } else
-        {
-            // I AM EMPTY
-            rowExists = false;
-        }
-        return rowExists;
+        return c.moveToFirst();
     }
     private void registrar() {
         SQLiteDatabase db=conn.getWritableDatabase();

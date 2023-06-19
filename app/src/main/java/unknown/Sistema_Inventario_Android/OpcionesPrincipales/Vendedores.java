@@ -99,18 +99,6 @@ public class Vendedores extends AppCompatActivity {
         }
     }
     public Boolean checkdb(Cursor c){
-        Boolean rowExists;
-
-        if (c.moveToFirst())
-        {
-            // DO SOMETHING WITH CURSOR
-            rowExists = true;
-
-        } else
-        {
-            // I AM EMPTY
-            rowExists = false;
-        }
-        return rowExists;
+        return c.moveToFirst();
     }
 }
